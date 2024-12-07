@@ -1,9 +1,12 @@
+#![feature(panic_info_message)]
 #![no_main]
 #![no_std]
 mod lang_item;
+mod sbi;
+#[macro_use]
+mod console;
 
 use core::arch::global_asm;
-use core::ptr::write_volatile;
 
 global_asm!(include_str!("entry.asm"));
 
@@ -22,5 +25,6 @@ fn clean_bss() {
 #[no_mangle]
 fn rust_main() -> ! {
     clean_bss();
-    loop {}
+    println!("[kernel] Hello, world!");
+    panic!("[kernel] Program Done! Shutdown Machine!")
 }
